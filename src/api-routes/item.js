@@ -1,58 +1,81 @@
 // item.js - Item route module.
 
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
+
+const item = require("../services/item.js");
+const authToken = require("../middlewares/tokenAuth");
 
 // Read Item route.
-router.get('/read/:item_id', function (req, res) {
+router.get('/read/:item_id', authToken, function (req, res) {
     const item_id = req.params.item_id;
+    // Call get_item() from service that returns the item object
+    let item_obj = item.read_item(item_id);
+    if (item_obj == null) {
+        return res.status(400).send("Item object not found.");
+    }
 
-    // TODO: Call get_item() from service that returns the item object
-
-    res.send(/*item object*/);
+    res.status(200).send(item_obj);
 })
 
 // Create Item route.
-router.post('/create', function (req, res) {
-    const user_id = req.body.user_id;
-    const item_id = req.body.item_id;
+router.post('/create', authToken, function (req, res) {
+    const user_id = req.user.id
     const data = req.body.data;
 
-    // TODO: Call create_item() from service that creates the item object
+    // Call create_item() from service that creates the item object
+    let item_id = item.create_item(user_id, data);
+    if (item_id == null) {
+        return res.status(400).send("Item creation failed.");
+    }
 
-    res.send(/*item id*/);
+    res.status(200).send(item_id);
 })
 
 // Update Item route.
-router.put('/update/:item_id/:user_id', function (req, res) {
-
+router.put('/update/:item_id', authToken, function (req, res) {
+    const user_id = req.user.id
+    const item_id = req.params.item_id;
     const data = req.body.data;
 
-    // TODO: Call update_item() from service that updates the item object
+    // Call update_item() from service that updates the item object
+    let item_id = item.update_item(user_id, item_id, data);
+    if (item_id == null) {
+        return res.status(400).send("Item update failed.");
+    }
 
-    res.send(/*item id*/);
+    res.status(200).send(item_id);
 })
 
-// Read Item route.
-router.delete('/delete/:item_id/:user_id', function (req, res) {
+// Delete Item route.
+router.delete('/delete/:item_id', authToken, function (req, res) {
+    const user_id = req.user.id
     const item_id = req.params.item_id;
-    const user_id = req.params.user_id;
 
-    // TODO: Call delete_item() from service that deletes the item object
+    // Call delete_item() from service that deletes the item object
+    let item_id = item.delete_item(user_id, item_id);
+    if (item_id == null) {
+        return res.status(400).send("Item delete failed.");
+    }
 
-    res.send(/*item id*/);
+    res.status(200).send(item_id);
 })
 
 // Search Item route.
-router.get('/search/:description/:category/:date/:urgency', function (req, res) {
-    const description = req.params.description;
-    const category = req.params.category;
-    const date = req.params.date;
-    const urgency = req.params.urgency;
+router.get('/search', authToken, function (req, res) {
+    const data = {
+        description: req.query.description,
+        category: req.query.category,
+        date: req.query.date,
+        urgency: req.query.urgency
+    }
 
-    // TODO: Call search_item() from service that searches the item objects
-
-    res.send(/*list of item objects*/);
+    // Call search_item() from service that searches the item objects
+    let item_objs = item.search_item(data);
+    if (item_objs == null) {
+        return res.status(400).send("Item search failed.");
+    }
+    res.status(200).send(item_objs);
 })
 
 module.exports = router;
