@@ -26,7 +26,7 @@ router.post('/login', function (req, res) {
             // Generate auth token. `token`
             const token = auth.generate_auth_token(user);
             // Return header "x-auth-token", `token`
-            res.header("x-auth-token", token).send({
+            res.header("x-auth-token", token).status(200).send({
                 id: user.id,
                 name: user.name,
                 email: user.email,

@@ -6,8 +6,7 @@ const auth = require('../models/auth.js');
 // Function to check if user exists in the DB
 function find_user(email) {
     // TODO: Call check_user() from Models that returns `user obj`
-    user = auth.get_user(email);
-    return user
+    return auth.get_user(email);
 }
 
 // Function to return a generated token.
