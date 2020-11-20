@@ -1,4 +1,5 @@
 // item.js - Item route module.
+"use strict";
 
 const express = require('express');
 const router = express.Router();
