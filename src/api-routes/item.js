@@ -2,10 +2,11 @@
 "use strict";
 
 const express = require('express');
-const router = express.Router();
 
 const item = require("../services/item.js");
 const authToken = require("../middlewares/tokenAuth");
+
+const router = express.Router();
 
 // Read Item route.
 router.get('/read/:item_id', authToken, function (req, res) {

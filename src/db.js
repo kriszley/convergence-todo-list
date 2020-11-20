@@ -1,3 +1,6 @@
+// db.js - DB config file. *ALL DUMMY VALUES
+"use strict";
+
 const Client = require("pg").Client;
 
 const client = new Client({

@@ -1,11 +1,28 @@
-const express = require('express')
+// app.js - App loader
+"use strict";
+
+const express = require('express');
+const http = require('http');
+
+const config = require('./config/default.json');
+const route_auth = require('./api-routes/auth.js');
+const route_item = require('./api-routes/item.js');
+
+// Constants
+const PORT = config.port;
+const HOST = config.host;
+
+// App
 const app = express();
-const port = 5000;
+
+// Use routes.
+app.use(express.json());
+app.use(route_auth);
+app.use(route_item);
 
 app.get('/', (req, res) => {
   res.send('Chris Lee\'s Convergence BE Todo App')
 });
 
-app.listen(port, () => {
-  console.log(`Convergence Todo app listening on port ${port}!`)
-});
+http.createServer(app).listen(PORT, HOST)
+console.log(`Running on http://${HOST}:${PORT}`);

@@ -1,3 +1,6 @@
+// auth.js - Auth service module.
+"use strict";
+
 const jwt = require('jsonwebtoken');
 
 const config = require('../config/default.json');
@@ -21,7 +24,8 @@ function find_user(email) {
  * @returns {String} JWT token
  */
 function generate_auth_token(user) {
-    const token = jwt.sign(user, config['myprivatekey'], { expiresIn: '2h' }); //get the private key from the config file -> environment variable
+    // Get the private key from the config file -> environment variable
+    const token = jwt.sign(user, config['myprivatekey'], { expiresIn: '2h' }); 
     return token;
 }
 

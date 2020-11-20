@@ -1,4 +1,6 @@
+// item.js - Item model module.
 "use strict";
+
 const client = require('../db.js');
 
 /**
@@ -7,7 +9,7 @@ const client = require('../db.js');
  * 
  * @returns {Object} item obj
  */
-function read_item(item_id) {
+async function read_item(item_id) {
     // Generate query string
     const text = 'SELECT * FROM Items WHERE id = ?';
     const values = [item_id];
@@ -27,7 +29,7 @@ function read_item(item_id) {
  * 
  * @returns {Number} Created item's ID
  */
-function create_item(user_id, data) {
+async function create_item(user_id, data) {
     const description = data.description;
     const category = data.category;
     const time = data.time;
@@ -52,7 +54,7 @@ function create_item(user_id, data) {
  * 
  * @returns {Number} Updated item's ID
  */
-function update_item(item_id, data) {
+async function update_item(item_id, data) {
     let text = 'UPDATE Items SET id = id';
     let text_where = ' WHERE id = ? RETURNING id';
     let values = [];
@@ -96,7 +98,7 @@ function update_item(item_id, data) {
  * 
  * @returns {Number} Deleted item's ID
  */
-function delete_item(item_id) {
+async function delete_item(item_id) {
     // Generate query string
     const text = 'DELETE FROM Items WHERE id = ?';
     const values = [item_id];
@@ -115,7 +117,7 @@ function delete_item(item_id) {
  * 
  * @returns {Array} Array of item objects that meets the search criteria
  */
-function search_item(data) {
+async function search_item(data) {
     // Generate query string
     let text = 'SELECT * FROM Items WHERE 1 = 1';
     let values = [];

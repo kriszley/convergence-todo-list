@@ -1,10 +1,12 @@
 // auth.js - Auth route module.
+"use strict";
 
 const express = require('express');
 const bcrypt = require("bcrypt");
-const router = express.Router();
 
 const auth = require("../services/auth");
+
+const router = express.Router();
 
 // User login route.
 router.post('/login', function (req, res) {

@@ -1,3 +1,6 @@
+// auth.js - Auth model module.
+"use strict";
+
 const client = require('../db.js');
 
 /**
@@ -6,11 +9,13 @@ const client = require('../db.js');
  * 
  * @returns {Object} user obj
  */
-function get_user(email) {
+async function get_user(email) {
     const text = 'SELECT FROM Users WHERE email = ?'
     const values = [email]
     try {
+        console.log("here")
         const res = await client.query(text, values)
+        console.log(res)
         return res.rows[0]
     } catch (err) {
         return null
