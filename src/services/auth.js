@@ -25,7 +25,7 @@ function find_user(email) {
  */
 function generate_auth_token(user) {
     // Get the private key from the config file -> environment variable
-    const token = jwt.sign(user, config['myprivatekey'], { expiresIn: '2h' }); 
+    const token = jwt.sign(user, config.myprivatekey, { expiresIn: '2h' }); 
     return token;
 }
 
